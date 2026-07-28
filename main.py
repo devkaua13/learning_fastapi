@@ -1,6 +1,5 @@
-def main():
-    print("Hello from learning-fastapi!")
+from fastapi import FastAPI
 
+app = FastAPI()
 
-if __name__ == "__main__":
-    main()
+# Comando para rodar com uvicorn - uv run uvicorn main:app --reload
