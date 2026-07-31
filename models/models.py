@@ -8,7 +8,6 @@ from sqlalchemy import (
     Float,
 )
 from sqlalchemy.orm import declarative_base
-from sqlalchemy_utils.types import ChoiceType
 
 
 # Cria a conexão com o banco
@@ -30,9 +29,9 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
-    name = Column("name", String)
-    email = Column("email", String, nullable=False)
-    password = Column("password", String)
+    name = Column("name", String(100))
+    email = Column("email", String(100), nullable=False)
+    password = Column("password", String(100))
     active = Column("active", Boolean)
     is_admin = Column("is_admin", Boolean, default=False)
 
@@ -50,16 +49,14 @@ class User(Base):
 class Order(Base):
     __tablename__ = "orders"
 
-    STATUS_PEDIDOS = (
-        ("PENDING", "PENDING"),
-        ("FINISH", "FINISH"),
-        ("CANCELLED", "CANCELLED"),
-    )
+    #  STATUS_PEDIDOS = (
+    #        ("PENDING", "PENDING"),
+    #        ("FINISH", "FINISH"),
+    #        ("CANCELLED", "CANCELLED"),
+    #    )
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
-    status = Column(
-        "status", ChoiceType(choices=STATUS_PEDIDOS)
-    )  # FINISH, CANCELLED, PENDING
+    status = Column("status", String(100))  # FINISH, CANCELLED, PENDING
     user = Column("user", ForeignKey("users.id"))
     price = Column("price", Float)
 
@@ -77,8 +74,8 @@ class OrderItem(Base):
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
     quantity = Column("quantity", Integer)
-    flavor = Column("flavor", String)
-    bulk = Column("bulk", String)
+    flavor = Column("flavor", String(100))
+    bulk = Column("bulk", String(100))
     unit_price = Column("unit_proce", Float)
     order = Column("order", ForeignKey("orders.id"))
 
@@ -90,5 +87,6 @@ class OrderItem(Base):
         self.order = order
 
 
-# rodar a migration com alembic : alembic revision --autogenerate -m "message"
+# revisar a migration com alembic : alembic revision --autogenerate -m "message"
+# rodar a migration: alembic upgrade head
 # Executa a criação do banco de dados
