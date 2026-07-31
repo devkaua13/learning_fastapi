@@ -1,4 +1,3 @@
-from enum import auto
 from sqlalchemy import (
     create_engine,
     Column,
@@ -11,8 +10,11 @@ from sqlalchemy import (
 from sqlalchemy.orm import declarative_base
 from sqlalchemy_utils.types import ChoiceType
 
+
 # Cria a conexão com o banco
-db = create_engine("127.0.0.1:3306//learning.db")
+db = create_engine(
+    "mariadb+mariadbconnector://learning:learning@127.0.0.1:3306/learning"
+)
 
 
 # Cria a base do banco de dados
@@ -71,7 +73,7 @@ class Order(Base):
 
 
 class OrderItem(Base):
-    __table__ = "orderitems"
+    __tablename__ = "orderitems"
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
     quantity = Column("quantity", Integer)
@@ -88,4 +90,5 @@ class OrderItem(Base):
         self.order = order
 
 
+# rodar a migration com alembic : alembic revision --autogenerate -m "message"
 # Executa a criação do banco de dados
