@@ -3,7 +3,11 @@ from models import db
 
 
 def take():
-    Session = sessionmaker(bind=db)
-    session = Session()
-    yield session
-    session.close()
+    session = None
+    try:
+        Session = sessionmaker(bind=db)
+        session = Session()
+        yield session
+    finally:
+        if session is not None:
+            session.close()
