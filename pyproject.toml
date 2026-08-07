@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.18.5",
+    "bcrypt<4.1",
     "fastapi>=0.140.13",
     "mariadb>=1.1.14",
     "passlib[bcrypt]>=1.7.4",
