@@ -11,3 +11,10 @@ class UserSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class OrderSchema(BaseModel):
+    id_user: int
+
+    class Config:
+        from_attributes = True

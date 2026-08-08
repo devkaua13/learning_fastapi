@@ -1,5 +1,3 @@
-from .models import Base
-from .models import User
-from .models import db
+from .models import Base, User, db, Order
 
-__all__ = ["Base", "User", "db"]
+__all__ = ["Base", "User", "db", "Order"]
