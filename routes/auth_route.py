@@ -2,10 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException
 from models import User
 from dependencies import take
 from services import bcrypt_context
-from schemas import UserSchema
+from schemas import UserSchema, LoginSchema
 from sqlalchemy.orm import Session
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
+
+
+def token_creating(id_user):
+    token = f"jfdklsçafdu31{id_user}"
+    return token
 
 
 @auth_router.get("/")
@@ -34,3 +39,16 @@ async def create_users(user_schema: UserSchema, session: Session = Depends(take)
         session.add(new_user)
         session.commit()
         return {"message": "User succesfull created {user_schema.email}"}
+
+
+@auth_router.post("/login")
+async def login(login_schema: LoginSchema, session: Session = Depends(take)):
+    user = session.query(User).filter(User.email == login_schema.email).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    else:
+        access_token = token_creating(user.id)
+        return {
+            "access_token": access_token,
+            "token_type": "Bearer",
+        }
